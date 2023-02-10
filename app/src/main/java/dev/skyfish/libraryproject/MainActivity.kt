@@ -2,11 +2,15 @@ package dev.skyfish.libraryproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dev.skyfish.libraryproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val zeroToOne = LibraryBook(
             title = "Zero to One",
@@ -37,9 +41,30 @@ class MainActivity : AppCompatActivity() {
             isEpub = true,
         )
 
+        var books = mutableListOf(zeroToOne, harryPotter, kickstart)
+        var i = 0
+
+        binding.button.setOnClickListener {
+            val book = books[i]
+            binding.tvTitle.text = book.title
+            binding.tvAuthor.text = book.author
+            binding.tvAvailable.text = if(book.isAvailable) "Available" else "Unavailable"
+            binding.tvGenre.text = book.genre
+            binding.tvPageLength.text = book.pageLength.toString()
+            binding.tvPublishYear.text = book.publishYear.toString()
+
+            if(i == books.size - 1){
+                i = 0
+            } else {
+                i++
+            }
+
+        }
+
         zeroToOne.printLog()
         harryPotter.printLog()
         kickstart.printLog()
 
     }
 }
+
