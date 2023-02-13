@@ -2,6 +2,7 @@ package dev.skyfish.libraryproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import dev.skyfish.libraryproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             binding.tvGenre.text = book.genre
             binding.tvPageLength.text = book.pageLength.toString()
             binding.tvPublishYear.text = book.publishYear.toString()
+            binding.tvCheckoutDuration.text = book.checkoutDuration.toString()
 
             if(i == books.size - 1){
                 i = 0
@@ -65,6 +67,32 @@ class MainActivity : AppCompatActivity() {
         harryPotter.printLog()
         kickstart.printLog()
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.i("Main_Activity","Saving UI State")
+
+        outState.putCharSequence("title",binding.tvTitle.text)
+        outState.putCharSequence("author",binding.tvAuthor.text)
+        outState.putCharSequence("year",binding.tvPublishYear.text)
+        outState.putCharSequence("genre",binding.tvGenre.text)
+        outState.putCharSequence("length",binding.tvPageLength.text)
+        outState.putCharSequence("available",binding.tvAvailable.text)
+        outState.putCharSequence("duration", binding.tvCheckoutDuration.text)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle){
+        super.onRestoreInstanceState(savedInstanceState)
+        Log.i("Main_Activity","Restoring UI State")
+
+        binding.tvTitle.text = savedInstanceState.getCharSequence("title")
+        binding.tvAuthor.text = savedInstanceState.getCharSequence("author")
+        binding.tvPublishYear.text = savedInstanceState.getCharSequence("year")
+        binding.tvGenre.text = savedInstanceState.getCharSequence("genre")
+        binding.tvPageLength.text = savedInstanceState.getCharSequence("length")
+        binding.tvAvailable.text = savedInstanceState.getCharSequence("available")
+        binding.tvCheckoutDuration.text = savedInstanceState.getCharSequence("duration")
     }
 }
 
